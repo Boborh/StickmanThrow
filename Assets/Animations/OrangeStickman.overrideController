@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OrangeStickman
+  m_Controller: {fileID: 9100000, guid: 040e8b717ce21c24e93ba824b543f6b6, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: c837d51738dd18f4d85e3ac16eab68c0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7647e97217cfaf149a2eeabd06f85eb0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a71a33a19b3e57d4da3317ba00de958d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3d69d60d079b3e04b88e996b8848be00, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: fd58d7523dea2514ca97b568abe00a72, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7d35745633a9fea40abffbcbc986648a, type: 2}

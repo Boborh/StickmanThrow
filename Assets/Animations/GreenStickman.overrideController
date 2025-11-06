@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GreenStickman
+  m_Controller: {fileID: 9100000, guid: 040e8b717ce21c24e93ba824b543f6b6, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: c837d51738dd18f4d85e3ac16eab68c0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c6d7237d8fe4e974f90b46bd2f4590fe, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a71a33a19b3e57d4da3317ba00de958d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b1b387b986b4b6e41b9c62ea1086931e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: fd58d7523dea2514ca97b568abe00a72, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: edda014953056e9439681c6a80ec0e7d, type: 2}
