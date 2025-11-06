@@ -1,14 +1,27 @@
+# ================================
 # Unity generated folders
+# ================================
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
-[Bb]uild/
-[Bb]uilds/
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
 
-# Visual Studio / Rider files
+# ================================
+# Build folders (ignore all except WebGL)
+# ================================
+[Bb]uild/
+[Bb]uilds/
+
+# Allow WebGL build for deployment
+!Build/WebGL/
+!Build/WebGL/**/*
+
+# ================================
+# IDE / Code Editor files
+# ================================
 .vscode/
+.idea/
 *.csproj
 *.unityproj
 *.sln
@@ -22,16 +35,19 @@
 *.pdb
 *.mdb
 
-# Crash Reports
+# ================================
+# Crash Reports and Logs
+# ================================
 sysinfo.txt
 
-# Ignore build output
-Build/
-Builds/
-
-# Ignore Addressable assets cache
+# ================================
+# Addressables / StreamingAssets
+# ================================
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 /[Aa]ssets/[Ss]treamingAssets/
 
-# Ignore local settings
+# ================================
+# Misc / OS generated files
+# ================================
 *.DS_Store
+Thumbs.db
