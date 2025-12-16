@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class UIManager : MonoBehaviour
     public TMP_InputField nameInput;
     public StickmanController playerStickman;
     public TMP_Text warningMsg;
+    public GameObject gameOverModal;
+    public TMP_Text gameOverText;
 
     [System.Serializable]
     public class HUDInterface
@@ -26,11 +29,30 @@ public class UIManager : MonoBehaviour
     public TMP_InputField passwordInput;
     const string PASSWORD_NORMAL = "alfa123";
     const string PASSWORD_DECAY = "omega321";
+    
+    [Header("Loading")]
+    public GameObject loadingModal;
+    public RectTransform loadingIcon;     // drag LoadingIcon here
+    [SerializeField] private float loadingSeconds = 4f;  // 3–5
+    [SerializeField] private float iconDegreesPerSecond = 180f;
+    private Coroutine loadingRoutine;
 
     void Start()
     {
         ShowWelcomeModal();
         HideHUDs();
+        SetStickmanNameLabelsVisible(false);
+
+        if(gameOverModal != null)
+        {
+            gameOverModal.SetActive(false);
+        }
+
+        if (loadingModal != null)
+        {
+            loadingModal.SetActive(false);
+        }
+        
     }
 
     // --- HUD Control ---
@@ -103,9 +125,16 @@ public class UIManager : MonoBehaviour
         passwordInput.onValueChanged.RemoveListener(OnNameChanged);
 
         InitializeHUDs();
-        if (playerStickman.hasBall)
+
+        var playerController = FindObjectOfType<PlayerController>();
+        if (playerController != null)
         {
-            FindObjectOfType<PlayerController>().OnBallReceived();
+            playerController.StartGame();
+
+            if (playerStickman.hasBall)
+            {
+                playerController.OnBallReceived();
+            }
         }
     }
 
@@ -147,8 +176,8 @@ public class UIManager : MonoBehaviour
         GameRules.Reset();
         GameRules.PlayerRef = playerStickman;
 
-        // Close modal & initialize HUD
-        HideInformedConsentModal();
+        // Close modal & start game
+        StartLoadingAndStartGame();
     }
 
     private void OnNameChanged(string value)
@@ -157,6 +186,92 @@ public class UIManager : MonoBehaviour
         if (warningMsg.gameObject.activeSelf && !string.IsNullOrEmpty(value.Trim()))
         {
             warningMsg.gameObject.SetActive(false);
+        }
+    }
+
+    public void ShowGameOver()
+    {
+        // Hide HUD panels
+        HideHUDs();
+
+        // Hide in-world stickman name labels
+        SetStickmanNameLabelsVisible(false);
+
+        // Show game over modal
+        if (gameOverModal != null)
+            gameOverModal.SetActive(true);
+
+        // Freeze game
+        Time.timeScale = 0f;
+    }
+
+    public void StartLoadingAndStartGame()
+    {
+        // prevent double-clicks / multiple coroutines
+        if (loadingRoutine != null)
+            StopCoroutine(loadingRoutine);
+
+        loadingRoutine = StartCoroutine(LoadingThenStartGame());
+    }
+
+    private IEnumerator LoadingThenStartGame()
+    {
+        // Hide informed consent modal
+        informedConsent.SetActive(false);
+
+        // Remove listeners (same as your HideInformedConsentModal)
+        nameInput.onValueChanged.RemoveListener(OnNameChanged);
+        passwordInput.onValueChanged.RemoveListener(OnNameChanged);
+
+        //keep HUD hidden during loading
+        HideHUDs();
+        SetStickmanNameLabelsVisible(false);
+
+        // Show loading modal
+        if (loadingModal != null)
+            loadingModal.SetActive(true);
+
+        float t = 0f;
+
+        // rotate icon for loadingSeconds using real time (not affected by timeScale)
+        while (t < loadingSeconds)
+        {
+            t += Time.unscaledDeltaTime;
+
+            if (loadingIcon != null)
+                loadingIcon.Rotate(0f, 0f, -iconDegreesPerSecond * Time.unscaledDeltaTime);
+
+            yield return null;
+        }
+
+        // Hide loading modal
+        if (loadingModal != null)
+            loadingModal.SetActive(false);
+
+        loadingRoutine = null;
+
+        // Show HUD and continue the game
+        SetStickmanNameLabelsVisible(true);
+        InitializeHUDs();
+
+        //gameStarted gate
+        var playerController = FindObjectOfType<PlayerController>();
+        if (playerController != null)
+        {
+            playerController.StartGame();
+
+            if (playerStickman.hasBall)
+                playerController.OnBallReceived();
+        }
+    }
+
+    private void SetStickmanNameLabelsVisible(bool visible)
+    {
+        var stickmen = FindObjectsOfType<StickmanController>(true); // include inactive
+        foreach (var s in stickmen)
+        {
+            if (s != null && s.nameReference != null)
+                s.nameReference.gameObject.SetActive(visible);
         }
     }
 }
