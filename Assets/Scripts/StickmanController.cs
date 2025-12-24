@@ -1,3 +1,4 @@
+using System.ComponentModel.Design;
 using TMPro;
 using UnityEngine;
 
@@ -61,6 +62,10 @@ public class StickmanController : MonoBehaviour
         hasBall = true;
         ballsReceived++;
         GameRules.TotalPasses++;
+        if (GameRules.PlayerRef != null && this == GameRules.PlayerRef)
+        {
+            GameRules.PlayerPassesReceived++;
+        }
         Debug.Log($"TOTAL PASSES = {GameRules.TotalPasses} (receiver: {fixedName})");
 
         //Check against the maximum passes
